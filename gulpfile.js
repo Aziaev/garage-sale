@@ -5,22 +5,20 @@ var autoprefixer = require('gulp-autoprefixer')
 var gp_concat = require('gulp-concat')
 var gp_rename = require('gulp-rename')
 var gp_uglify = require('gulp-uglify')
+var sass = require('gulp-sass')
 // var less = require('gulp-less')
 var to5 = require('gulp-6to5')
 var path = require('path')
+var googleWebFonts = require('gulp-google-webfonts')
+var options = { };
 
 gulp.task('css', function(){
     return gulp.src(
             [
-                './public/css/bootstrap.css',
-                './public/css/style.css',
-                './public/css/swiper.css',
-                './public/css/dark.css',
-                './public/css/font-icons.css',
-                './public/css/animate.css',
-                './public/css/magnific-popup.css',
-                './public/css/responsive.css',
-                './public/css/custom.css'
+                './public/css/bootstrap.min.css',
+                './public/css/material-dashboard.css',
+                './public/css/demo.css',
+                'http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css'
             ]
         )
         .pipe(minifyCSS())
@@ -29,12 +27,25 @@ gulp.task('css', function(){
         .pipe(gulp.dest('./public/dist/css/'))
 })
 
+gulp.task('sass', function(){
+    return gulp.src('./public/sass/material-dashboard.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./public/css'));
+})
+
 gulp.task('copy-fonts', function(){
     return gulp.src(
-            ['./public/css/fonts/**']
+            ['http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons']
         )
         .pipe(gulp.dest('./public/dist/css/fonts/'))
 })
+
+gulp.task('fonts', function () {
+    return gulp.src('./fonts.list')
+        .pipe(googleWebFonts(options))
+        .pipe(gulp.dest('./public/dist/css/fonts/'))
+        ;
+});
 
 gulp.task('style', ['css', 'copy-fonts'], function(){})
 
@@ -42,10 +53,15 @@ gulp.task('style', ['css', 'copy-fonts'], function(){})
 gulp.task('js', function(){
     return gulp.src(
             [
-                './public/js/jquery.js',
-                './public/js/plugins.js',
-                './public/js/functions.js',
-                './public/js/custom.js'
+                './public/js/jquery-3.2.1.min.js',
+                './public/js/bootstrap.min.js',
+                './public/js/material.min.js',
+                './public/js/chartist.min.js',
+                './public/js/arrive.min.js',
+                './public/js/perfect-scrollbar.jquery.min.js',
+                './public/js/bootstrap-notify.js',
+                './public/js/material-dashboard.js',
+                './public/js/demo.js'
             ]
         )
         .pipe(gp_concat('vendor.min.js'))
