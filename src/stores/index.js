@@ -1,42 +1,36 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux'
+import { applyMiddleware, combineReducers, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import { userReducer } from '../reducers'
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	This is a store with one reducer: userReducer. When 
-	adding more reducers, make sure to include them in 
-	line 3 (above) and line 18 (below):
-* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
+import { itemReducer, userReducer } from '../reducers'
 
 var store
 export default {
 
-	configure: (initialState) => { // initialState can be null
-		
-		const reducers = combineReducers({ // insert reducers here
-			user: userReducer
-		})
+  configure: (initialState) => { // initialState can be null
 
-		if (initialState){
-			store = createStore(
-			    reducers,
-			    initialState,
-			    applyMiddleware(thunk)
-			)
+    const reducers = combineReducers({ // insert reducers here
+      user: userReducer,
+      item: itemReducer
+    });
 
-			return store
-		}
+    if (initialState) {
+      store = createStore(
+        reducers,
+        initialState,
+        applyMiddleware(thunk)
+      );
 
-		store = createStore(
-		    reducers,
-		    applyMiddleware(thunk)
-		)
+      return store
+    }
 
-		return store
-	},
+    store = createStore(
+      reducers,
+      applyMiddleware(thunk)
+    );
 
-	currentStore: () => {
-		return store
-	}
+    return store
+  },
+
+  currentStore: () => {
+    return store
+  }
 }

@@ -1,4 +1,4 @@
-const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
+const vertex = require('vertex360')({ site_id: process.env.TURBO_APP_ID })
 
 // initialize app
 const app = vertex.app()

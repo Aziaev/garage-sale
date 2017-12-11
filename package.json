@@ -19,6 +19,7 @@
     "react-bootstrap": "latest",
     "react-dom": "latest",
     "react-dropzone": "latest",
+    "react-google-maps": "^9.4.2",
     "react-redux": "latest",
     "react-time": "latest",
     "redux": "latest",
