@@ -1,15 +1,16 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import { itemReducer, userReducer } from '../reducers'
+import { itemReducer, mapReducer, userReducer } from '../reducers'
 
-var store
+var store;
 export default {
 
   configure: (initialState) => { // initialState can be null
 
     const reducers = combineReducers({ // insert reducers here
       user: userReducer,
-      item: itemReducer
+      item: itemReducer,
+      mapCenter: mapReducer
     });
 
     if (initialState) {

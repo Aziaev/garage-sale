@@ -4,7 +4,7 @@ import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 class Map extends Component {
 
   constructor(){
-    super()
+    super();
     this.state = {
       map: null
     }
@@ -24,12 +24,12 @@ class Map extends Component {
 
   mapLoaded(map){
     if (this.state.map != null)
-      return
+      return;
 
-    this.props.onMapReady(map)
+    this.props.onMapReady(map);
     this.setState({
       map: map
-    })
+    });
   }
 
   handleMarkerClick(marker){
