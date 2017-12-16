@@ -9428,10 +9428,10 @@ exports.default = {
     };
   },
 
-  centerChanged: function centerChanged(position) {
+  locationChanged: function locationChanged(location) {
     return {
-      type: 'CENTER_CHANGED',
-      data: position
+      type: 'LOCATION_CHANGED',
+      data: location
     };
   }
 
@@ -10099,7 +10099,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  mapCenter: null,
   all: [{
     id: 1,
     key: '1',
@@ -30679,7 +30678,7 @@ exports.default = {
     var reducers = (0, _redux.combineReducers)({ // insert reducers here
       user: _reducers.userReducer,
       item: _reducers.itemReducer,
-      mapCenter: _reducers.mapReducer
+      map: _reducers.mapReducer
     });
 
     if (initialState) {
@@ -31340,22 +31339,20 @@ exports.default = function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _initialState = __webpack_require__(106);
-
-var _initialState2 = _interopRequireDefault(_initialState);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var initialState = {
+  currentLocation: { lat: 40.72224017, lng: -73.9896 }
+};
 
 exports.default = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _initialState2.default;
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
   var updated = Object.assign({}, state);
 
   switch (action.type) {
-    case 'CENTER_CHANGED':
-      updated['mapCenter'] = action.data;
+    case 'LOCATION_CHANGED':
+      console.log('LOCATION_CHANGED IN MAP REDUCER : ' + JSON.stringify(action.data));
+      updated['currentLocation'] = action.data;
       return updated;
     default:
       return updated;
@@ -46425,7 +46422,7 @@ var Results = function (_Component) {
 
     _this.state = {
       item: {
-        position: { lat: 40.708703, lng: -73.999974 }
+        // position: { lat: 40.708703, lng: -73.999974 }
       }
     };
     return _this;
@@ -46447,13 +46444,13 @@ var Results = function (_Component) {
       newItem['id'] = this.props.item.all.length + 1;
       newItem['key'] = '' + (this.props.item.all.length + 1);
       newItem['defaultAnimation'] = 2;
+      newItem['position'] = this.props.map.currentLocation;
       this.props.addItem(newItem);
     }
   }, {
     key: 'render',
     value: function render() {
       var items = this.props.item.all || [];
-      console.log('this.props.item = ' + JSON.stringify(this.props.item));
       return _react2.default.createElement(
         'div',
         { className: 'content' },
@@ -46527,7 +46524,8 @@ var Results = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
   return {
-    item: state.item
+    item: state.item,
+    map: state.map
   };
 };
 
@@ -46583,8 +46581,7 @@ var Search = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this));
 
     _this.state = {
-      map: null,
-      mapCenter: null
+      map: null
     };
     return _this;
   }
@@ -46592,7 +46589,7 @@ var Search = function (_Component) {
   _createClass(Search, [{
     key: 'centerChanged',
     value: function centerChanged(center) {
-      this.props.centerChanged(center);
+      this.props.locationChanged(center);
     }
   }, {
     key: 'render',
@@ -46600,6 +46597,7 @@ var Search = function (_Component) {
       var _this2 = this;
 
       var items = this.props.item.all || [];
+      console.log('props = ' + JSON.stringify(this.props));
       return _react2.default.createElement(
         'div',
         { className: 'sidebar', 'data-color': 'purple', 'data-image': '/img/sidebar-1.jpg' },
@@ -46623,13 +46621,12 @@ var Search = function (_Component) {
                 _this2.setState({
                   map: map
                 });
-                _this2.centerChanged.bind(map.getCenter());
               }
             },
             locationChanged: this.centerChanged.bind(this),
             markers: items,
             zoom: 14,
-            center: { lat: 40.72224017, lng: -73.9896 },
+            center: this.props.map.currentLocation,
             containerElement: _react2.default.createElement('div', { style: { height: 100 + '%' } }),
             mapElement: _react2.default.createElement('div', { style: { height: 100 + '%' } })
           })
@@ -46643,14 +46640,15 @@ var Search = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
   return {
-    item: state.item
+    item: state.item,
+    map: state.map
   };
 };
 
 var dispatchToProps = function dispatchToProps(dispatch) {
   return {
-    centerChanged: function centerChanged(position) {
-      return dispatch(_actions2.default.centerChanged(position));
+    locationChanged: function locationChanged(location) {
+      return dispatch(_actions2.default.locationChanged(location));
     }
   };
 };

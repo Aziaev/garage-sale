@@ -8,16 +8,16 @@ class Search extends Component {
     super();
     this.state = {
       map: null,
-      mapCenter: null
     }
   }
 
   centerChanged(center) {
-    this.props.centerChanged(center);
+    this.props.locationChanged(center);
   }
 
   render() {
     const items = this.props.item.all || [];
+    console.log(`props = ${JSON.stringify(this.props)}`);
     return (
       <div className="sidebar" data-color="purple" data-image="/img/sidebar-1.jpg">
         <div className="logo">
@@ -34,13 +34,12 @@ class Search extends Component {
                 this.setState({
                   map: map
                 });
-                this.centerChanged.bind(map.getCenter())
               }
             }}
             locationChanged={this.centerChanged.bind(this)}
             markers={items}
             zoom={14}
-            center={{ lat: 40.72224017, lng: -73.9896 }}
+            center={this.props.map.currentLocation}
             containerElement={<div style={{ height: 100 + '%' }}/>}
             mapElement={<div style={{ height: 100 + '%' }}/>}
           />
@@ -52,13 +51,14 @@ class Search extends Component {
 
 const stateToProps = (state) => {
   return {
-    item: state.item
+    item: state.item,
+    map: state.map
   }
 };
 
 const dispatchToProps = (dispatch) => {
   return {
-    centerChanged: (position) => dispatch(actions.centerChanged(position))
+    locationChanged: (location) => dispatch(actions.locationChanged(location))
   }
 };
 

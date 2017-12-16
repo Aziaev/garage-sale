@@ -1,5 +1,4 @@
 export default {
-  mapCenter: null,
   all: [
     {
       id: 1,

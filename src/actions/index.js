@@ -10,10 +10,10 @@ export default {
     }
   },
 
-  centerChanged: (position) => {
+  locationChanged: (location) => {
     return {
-      type: 'CENTER_CHANGED',
-      data: position
+      type: 'LOCATION_CHANGED',
+      data: location
     }
   }
 

@@ -8,7 +8,7 @@ class Results extends Component {
     super();
     this.state = {
       item: {
-        position: { lat: 40.708703, lng: -73.999974 }
+        // position: { lat: 40.708703, lng: -73.999974 }
       }
     }
   }
@@ -26,12 +26,12 @@ class Results extends Component {
     newItem['id'] = this.props.item.all.length + 1;
     newItem['key'] = `${this.props.item.all.length + 1}`;
     newItem['defaultAnimation'] = 2;
+    newItem['position'] = this.props.map.currentLocation;
     this.props.addItem(newItem);
   }
 
   render() {
     const items = this.props.item.all || [];
-    console.log(`this.props.item = ${JSON.stringify(this.props.item)}`);
     return (
       <div className="content">
         <div className="container-fluid">
@@ -78,7 +78,8 @@ class Results extends Component {
 
 const stateToProps = (state) => {
   return {
-    item: state.item
+    item: state.item,
+    map: state.map
   }
 };
 

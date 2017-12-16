@@ -10,7 +10,7 @@ export default {
     const reducers = combineReducers({ // insert reducers here
       user: userReducer,
       item: itemReducer,
-      mapCenter: mapReducer
+      map: mapReducer
     });
 
     if (initialState) {
